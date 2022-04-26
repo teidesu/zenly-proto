@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package co.znly.services.place;
+
+import "./places.proto";
+import "./nights.proto";
+import "./utils.proto";
+
+service PlaceService {
+    rpc PersonalPlaces(Empty) returns (PersonalPlacesResponse);
+    rpc PersonalPlaceCreate(PersonalPlaceCreateRequest) returns (PersonalPlaceCreateResponse);
+    rpc PersonalPlaceUpdate(PersonalPlaceUpdateRequest) returns (PersonalPlaceUpdateResponse);
+    rpc PersonalPlaceResetRateLimit(PersonalPlaceResetRateLimitRequest) returns (Empty);
+    
+    rpc UnlabeledPlaces(Empty) returns (UnlabeledPlacesResponse);
+    
+    rpc Nights(Empty) returns (NightsResponse);
+    rpc NightUpdate(NightUpdateRequest) returns (NightUpdateResponse);
+}

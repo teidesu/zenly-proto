@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+message PingEmoji {
+    string utf8 = 1;
+    string uuid = 2;
+}
+
+message PingPack {
+    int32 minFriendsCount = 1;
+    string uuid = 2;
+    string name = 3;
+    PingEmoji emojis = 4;
+
+    // todo enum zenly_PingPack_UnlockType
+    uint32 unlockType = 5;
+    int32 unlockValue = 6;
+}
+
+message PingManifestRequest {
+    optional string checksum = 1;
+}
+
+message PingManifestResponse {
+    string rootUrl = 1;
+    string checksum = 2;
+    repeated PingPack packs = 3;
+    repeated PingEmoji deprecated = 4;
+}

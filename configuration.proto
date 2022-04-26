@@ -1,0 +1,259 @@
+syntax = "proto3";
+import "./utils.proto";
+
+message ConfigurationRequest {
+    string coreVersion = 1;
+    optional string iosVersion = 2;
+    optional string androidVersion = 3;
+    optional string webAppVersion = 4;
+    string deviceOsUuid = 5;
+}
+
+message ConfigurationResponse {
+    string minCoreVersion = 1;
+    optional string minIosVersion = 2;
+    optional string minAndroidVersion = 3;
+    optional string minWebAppVersion = 7;
+   
+    string upgradeUrl = 4;
+    bool upgrade = 5;
+   
+    Configuration configuration = 6;
+}
+
+
+message Configuration {
+    message Global {
+        Duration aliveThreshold = 1;
+        Duration liveThreshold = 2;
+        int32 contactsBuffer = 3;
+        int32 maxSearchResults = 4;
+        Duration contactsUploadTimeout = 5;
+        optional int64 defaultTopFriend = 6;
+        optional string contactHashKey = 7;
+        string cdnBaseUrl = 8;
+    }
+
+    message Map {
+        Duration spinnerTimeout = 1;
+        Duration spinnerOldTimeout = 2;
+        double tooOldThreshold = 3;
+        double viewportZoomOutFactor = 4;
+        double viewportClosenessFactor = 5;
+        // Duration geoRouteEtaRefresh = 6; // ?
+        // ???
+        // double viewportMaxDistance = ?;
+        // double viewportMinRadius = ?;
+        // double radiusBound = ?;
+        // double distanceThreshold = ?;
+        // double squareDiameter = ?;
+        // int wakeUpTopFriendsScore = ?;
+        // int wakeUpTopFriendsLimit = ?;
+    }
+
+    message Network {
+        Duration unaryTimeout = 1;
+        Duration backOffMinTimeout = 2;
+        Duration backOffMaxTimeout = 3;
+        Duration transportTimeout = 4;
+        Duration transportKeepAlive = 5;
+        double backoffFactor = 6;
+        double streamsBufferSize = 7;
+        // ? valveDialTimeout = 8;
+        // ? valveCallTimeout = 9;
+        // ? valveCacheTtl = 10;
+        optional string valveUrl = 11;
+        Duration grpcDefaultKeepAliveTimeout = 12;
+        Duration grpcDefaultKeepAlivePing = 13;
+        Duration grpcPipelineKeepAliveTimeout = 14;
+        Duration grpcPipelineKeepAlivePing = 15;
+    }
+
+    message Chat {
+        string defaultEmojiUuid = 1;
+        Duration textSenderTimeout = 2;
+        Duration emojiSenderTimeout = 3;
+        Duration mediaSenderTimeout = 4;
+        Duration pokeSenderTimeout = 10;
+
+        int32 mediaUploadConcurrency = 5;
+        int32 mediaUploadMaxAttempts = 6;
+        int32 mediaUploadMaxBytes = 7;
+        
+        Duration videoUploadMaxDuration = 8;
+        Duration voiceNoteMaxDuration = 9;
+
+        Duration pokeRsvpValidity = 11;
+        Duration znapValidity = 14;
+
+        // bool enablePrefetch = 15?;
+        // bool enableRsvpReminder = 16?;
+        // bool askVoiceNotePermission = ?;
+
+        int32 textMessageMaxCharacters = 17;
+    }
+
+    message Pipeline {
+        Duration backgroundExitTimeout = 1;
+        Duration tcSenderTimeout = 2;
+        Duration tcSenderFirstTcTimeout = 3;
+        Duration tcSenderWatchersResponseTimeout = 4;
+        Duration tcFuserLowreqTimeout = 5;
+
+        double tcDebounceMaxDuration = 7;
+        double tcDebounceMaxDistance = 8;
+        double tcDebounceHorizontalPrecisionThreshold = 9;
+        optional double tcDebounceMaxDeltaPressure = 10; // ?
+    }
+
+    message Tracer {
+        Duration sendTimeout = 1;
+        Duration flushTimeout = 2;
+        int32 flushBufferSize = 3;
+    }
+
+    message Onboarding {
+        bool allowAgeGatingRetry = 1;
+        string onboardingVideoPresentationUrl = 2;
+        string onboardingVideoPresentationImagesUrl = 3;
+    }
+
+    message FeatureFlags {
+        // ... too many flags ...
+    }
+
+    message TimeOnTheSpot {
+        Duration isMovingValidity = 1;
+        Duration isVisitPointObsolete = 2;
+        Duration networkLatencyMargin = 3;
+    }
+
+    message Weather {
+        int32 cacheCellLevel = 1;
+        Duration cacheTtl = 2;
+    }
+
+    message Location {
+        int32 corelocationProviderMaxGpsPrecisionInMeters = 1;
+        bool apwlsEnableAndroid = 2;
+        bool apwlsEnableIos = 3;
+    }
+
+    message Brump {
+        int32 accelerationThreshold = 1;
+    }
+
+    message Footsteps {
+        Duration viewsTickerInterval = 1;
+        string flagsCdnPathPrefix = 2;
+        string leaderboardWorldCardVideo = 3;
+        string leaderboardCityCardVideo = 4;
+        string leaderboardCountryCardVideo = 6;
+        
+        string lightrays = 5;
+    }
+
+    message MapLenses {
+        message OpenWeatherMap {
+            string url = 1;
+            int32 maxZoomLevel = 2;
+        }
+
+        message CoronaVirus {
+            string url = 1;
+            string vaccineUrl = 2;
+        }
+
+        message Wikipedia {
+            repeated StringMapEntry baseUrls = 1;
+        }
+
+        message Instagram {
+            message Assets {
+                string payload = 1;
+                string images = 2;
+            }
+
+            Assets leserialpatissteur = 1;
+            Assets parisinsiderfood = 2;
+            Assets lestasters = 3;
+            Assets foodeaseparis = 4;
+
+        }
+
+        message WithPayload {
+            string payload = 1;
+        }
+
+        message GeoEnabledLenses {
+            bool enabled = 1;
+            string name = 2;
+            string icon = 3;
+            uint32 lensTypeTag = 4;
+            string subName = 5;
+            float top = 6;
+            float bottom = 7;
+            float left = 8;
+            float right = 9;
+            string analyticsName = 10;
+        }
+
+        optional OpenWeatherMap openWeatherMapPrecipitations = 1;
+        optional CoronaVirus coronavirus = 2;
+        optional OpenWeatherMap openWeatherMapTemperature = 3;
+        optional Wikipedia wikipedia = 4;
+        optional Instagram instragram = 5;
+        optional WithPayload publicToilets = 6;
+        optional WithPayload basketballCourts = 7;
+        optional WithPayload condomFinder = 8;
+        optional WithPayload leFoodingRestaurants = 9;
+        optional WithPayload leFoodingHotels = 10;
+        optional WithPayload streetArt = 11;
+        optional WithPayload snapPlace = 12;
+        repeated GeoEnabledLenses geoEnabledLenses = 13;
+    }
+
+    message Routing {
+        message Cache {
+            int32 minTimeSeconds = 1;
+            int32 minDistanceMeters = 2;
+            int32 maxTimeSeconds = 3;
+            int32 maxDistanceMeters = 4;
+            float distanceRatio = 5;
+        }
+
+        Cache cache = 1;
+    }
+
+    message DismissFriendRequests {
+        int32 ttlInDays = 1;
+        int32 windowInDays = 2;
+        repeated int32 thresholds = 3;
+    }
+
+    message Chime {
+        string EmojiBaseUrl = 1;
+        uint32 CheckinDistanceThreshold = 2;
+        Duration CheckinExpirationThreshold = 3;
+        string FlameUrl = 4;
+    }
+
+    Global global = 1;
+    Map map = 2;
+    Network network = 3;
+    Chat chat = 4;
+    Pipeline pipeline = 5;
+    Tracer tracer = 7;
+    Onboarding onboarding = 8;
+    // FeatureFlags flags = 9;
+    bytes flags = 9;
+    TimeOnTheSpot timeOnTheSpot = 10;
+    Weather weather = 11;
+    Location location = 12;
+    Brump brump = 13;
+    Footsteps footsteps = 14;
+    MapLenses mapLenses = 17;
+    DismissFriendRequests dismissFriendRequests = 18;
+    Routing rounting = 19;
+    Chime chime = 20;
+}

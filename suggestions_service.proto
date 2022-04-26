@@ -1,0 +1,34 @@
+syntax = "proto3";
+
+package zenly.protobuf.services.suggestions;
+
+import "./users.proto";
+import "./utils.proto";
+
+message ContactsSuggestionsResponse {
+    repeated User users = 1;
+    optional int32 total = 2;
+    optional int32 limit = 3;
+    int32 offset = 4;
+    int32 algoVersion = 8;
+    repeated SuggestedUser suggestedUsers = 9;
+}
+
+message SuggestedDismissRequest {
+    repeated string userUuids = 1;
+    repeated string phoneNumbers = 2;
+}
+
+message SuggestedDismissError {
+    Error error = 1;
+}
+
+message SuggestedDismissResponse {
+    repeated string errorMessages = 1;
+    optional SuggestedDismissError error = 2;
+}
+
+service SuggestionsService {
+    rpc ContactsSuggestions(Empty) returns (ContactsSuggestionsResponse);
+    rpc SuggestedDismiss(SuggestedDismissRequest) returns (SuggestedDismissResponse);
+}

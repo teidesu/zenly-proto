@@ -1,0 +1,64 @@
+syntax = "proto3";
+
+import "./utils.proto";
+
+message UserPreferences {
+    message Descendants {
+        int32 count = 1;
+        optional int32 hintFlags = 2;
+        optional int32 lastSeenLevelThreshold = 3;
+        optional Timestamp lastSeenDate = 4;
+        bool hasSeenTutorial = 5;
+    }
+
+    message MapLenses {
+        repeated string enabledLenses = 1;
+        repeated string seenLenses = 2;
+        optional uint32 preferredFuelType = 3;
+    }
+
+    message PowerMoves {
+        repeated int32 seenVideos = 1;
+        bool easterEggShown = 2;
+        bool pageSeen = 3;
+    }
+
+    message Chat {
+        bool voiceNotePermissionGranted = 1;
+    }
+
+    message Chime {
+        bool friendOnlyPlaces = 1;
+        Timestamp lastSeenDate = 2;
+    }
+
+    message Flash {
+        bool flashSmallTutorialDisplayed = 1;
+        bool flashHeavyTutorialDisplayed = 2;
+    }
+
+    float bumpAccelerationThreshold = 1;
+    bool footstepsOnboardingDone = 2;
+    bool footstepsStartedOnce = 3;
+    bool coronaBumpDialogDisplayed = 6;
+    bool friendshipFactsDisplayed = 10;
+    
+    optional Descendants descendants = 4;
+    optional MapLenses mapLenses = 8;
+    optional PowerMoves powerMoves = 11;
+    optional Chat chat = 12;
+    optional Chime chime = 13;
+    optional Flash flash = 14;
+}
+
+message UserPreferencesSetRequest {
+    UserPreferences preferences = 1;
+}
+
+message UserPreferencesSetResponse {
+    optional UserPreferencesSetError error = 1;
+}
+
+message UserPreferencesSetError {
+    Error error = 1;
+}

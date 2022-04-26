@@ -1,0 +1,212 @@
+syntax = "proto3";
+
+import "./utils.proto";
+import "./places.proto";
+
+message DeviceStripped {
+    string version = 1;
+    uint32 type = 2;
+}
+
+message AtNightPlaceStripped {
+    uint32 id = 1;
+}
+
+message ActivityStripped {
+    bool isForeground = 1;
+    bool isWifiConnected = 2;
+}
+
+message BatteryStripped {
+    int32 level = 1;
+    bool isCharging = 2;
+}
+
+message LocExtraStripped {
+    double latitude = 1;
+    double longitude = 2;
+    optional float precision = 3;
+    optional float speed = 4;
+    // todo enum pincontext_LocExtraStripped_DynamicState
+    optional uint32 dynamic = 5;
+    optional Timestamp hereSince = 6;
+}
+
+message ElevationStripped {
+    float height = 1;
+    bool isInSubway = 2;
+}
+
+message WeatherStripped {
+    // todo unsure about keys
+
+    // todo enum weather_WeatherType
+    optional uint32 weatherType = 1;
+    optional float temperature = 2;
+    optional int32 humidity = 3;
+    bool isDayTime = 5;
+    // todo enum weather_DetailedWeatherType
+    uint32 DetailedWeatherType = 6;
+}
+
+message PersonalPlaceStripped {
+    PersonalPlaceLabel label = 1;
+    uint32 id = 2;
+    bool isMain = 3;
+}
+
+message HeadingStripped {
+    // todo unsure about keys
+
+    message Place {
+        double latitude = 1;
+        double longitude = 2;
+        optional PersonalPlaceLabel label = 3;
+        bool isMain = 4;
+        int32 radius = 5;
+        optional int32 id = 6;
+    }
+
+    optional Place origin = 1;
+    optional Place destination = 2;
+    optional Timestamp eta = 3;
+    optional Timestamp departureTime = 4;
+}
+
+message SleepingStripped {
+    // todo enum pincontext_SleepingStripped_Activity
+    uint32 activity = 1;
+    optional Timestamp fellAsleepAt = 2;
+    optional Timestamp predictedWakeUpAt = 3;
+    optional Timestamp sleepPeriodStartsAt = 4;
+}
+
+message BubblerStripped {
+    message Bubble {
+        message BBox {
+            Location ne = 1;
+            Location sw = 2;
+        }
+
+        message Event {
+            string name = 1;
+            string categoryIconURL = 2;
+            repeated string iconURLs = 3;
+        }
+
+        repeated string iconUrls = 1;
+        string name = 2;
+        uint64 id = 3;
+        BBox bbox = 4;
+        string categoryIconUrl = 5;
+        repeated Event events = 6;
+    }
+
+    repeated Bubble bubbles = 1;
+}
+
+message LockModeStripped {
+    // todo enum LockModeStripped_Status
+    uint32 status = 1;
+}
+
+message TelephonyStripped {
+    // todo enum TelephonyStripped_PhoneMode
+    uint32 phoneMode = 1;
+}
+
+message MusicPlayerStripped {
+    message Song {
+        optional string artist = 1;
+        optional string album = 2;
+        optional string track = 3;
+    }
+
+    // todo enum MusicPlayerStripped_Status
+    uint32 status = 1;
+    optional Song song = 2;
+    // todo enum MusicPlayerStripped_AppProvider
+    optional uint32 appProvider = 3;
+    optional string trackIdentifier = 4;
+    optional string artworkIdentifier = 5;
+    optional Duration elapsedTime = 6;
+    optional Duration duration = 7;
+    optional Timestamp createdAt = 8;
+}
+
+message AtFriendsPersonalPlaceStripped {
+    message FriendPersonalPlace {
+        PersonalPlaceLabel label = 1;
+        StringValue friendUid = 2;
+    }
+
+    repeated FriendPersonalPlace friendPlaces = 1;
+}
+
+message PinContext {
+    string userUuid = 2;
+    Timestamp createdAt = 3;
+    double latRaw = 4;
+    double lngRaw = 5;
+    int32 hpRaw = 6;
+    // todo enum GhostType
+    uint32 ghostType = 7; // 29 ?
+
+    // todo enum pincontext_PinContextResult (all *Result)
+
+    optional uint32 deviceResult = 90;
+    optional DeviceStripped device = 91;
+
+    uint32 atNightPlaceResult = 94;
+    optional AtNightPlaceStripped atNightPlace = 95;
+
+    optional uint32 activityResult = 100;
+    optional ActivityStripped activity = 101; 
+
+    optional uint32 batteryResult = 110;
+    optional BatteryStripped battery = 111;
+
+    optional uint32 locExtraResult = 120;
+    optional LocExtraStripped locExtra = 121;
+
+    optional uint32 elevationResult = 130;
+    optional ElevationStripped elevation = 131;
+
+    optional uint32 weatherResult = 160;
+    optional WeatherStripped weather = 161;
+
+    optional uint32 personalPlaceResult = 170;
+    optional PersonalPlaceStripped personalPlace = 171;
+    
+    optional uint32 headingResult = 180;
+    optional HeadingStripped heading = 181;
+    
+    optional uint32 sleepingResult = 190;
+    optional SleepingStripped sleeping = 191;
+    
+    optional uint32 bubblerResult = 200;
+    optional BubblerStripped bubbler = 201;
+    
+    optional uint32 lockModeResult = 210;
+    optional LockModeStripped lockMode = 211;
+    
+    optional uint32 telephonyResult = 220;
+    optional TelephonyStripped telephony = 221;
+    
+    optional uint32 musicPlayerResult = 230;
+    optional MusicPlayerStripped musicPlayer = 231;
+    
+    optional uint32 atFriendsPersonalPlaceResult = 240;
+    optional AtFriendsPersonalPlaceStripped atFriendsPersonalPlace = 241;
+}
+
+message PinContextSubscribeStreamRequest {
+    GeoRectangle viewport = 1;
+    // todo enum ViewportMode
+    uint32 mode = 2;
+    repeated string selectedUserUuids = 3;
+}
+
+message PinContextSubscribeStreamEvent {
+    repeated PinContext pinContexts = 1;
+}

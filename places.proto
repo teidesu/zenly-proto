@@ -1,0 +1,112 @@
+syntax = "proto3";
+
+import "./utils.proto";
+
+enum PersonalPlaceLabel {
+    HOME = 1;
+    WORK = 2;
+    SCHOOL = 3;
+}
+
+// why?
+message PersonalPlaceLabelValue {
+    PersonalPlaceLabel label = 1;
+}
+
+message PersonalPlace {
+    uint32 id = 1;
+    PersonalPlaceLabel label = 2;
+    bool isMain = 3;
+
+    double radius = 4;
+    double latitude = 5;
+    double longitude = 6;
+    
+    optional Timestamp leftAt = 7;
+    optional uint32 daysSpent = 8;
+    optional uint32 nightsSpent = 9;
+    optional Timestamp enteredAt = 10;
+    // todo enum context_Visibility
+    uint32 visibility = 11;
+}
+
+message UnlabeledPlace {
+    message LabelsProbability {
+        uint32 home = 1;
+        uint32 work = 2;
+        uint32 school = 3;
+    }
+
+    uint32 id = 1;
+    Location location = 2;
+    
+    optional uint32 daysSpent = 3;
+    optional uint32 nightsSpent = 4;
+    optional Timestamp lastVisitedAt = 5;
+    
+    LabelsProbability inferredLabels = 6;
+}
+
+message PersonalPlaceRateLimitError {
+    // todo enum
+    uint32 code = 1;
+    uint32 remaining = 2;
+}
+
+message PersonalPlacesResponse {
+    repeated PersonalPlace places = 1;
+}
+
+message PersonalPlaceCreateRequest {
+    message FromNight {
+        Location location = 1;
+        PersonalPlaceLabel label = 2;
+    }
+
+    message FromUnlabeledPlace {
+        uint32 id = 1;
+        PersonalPlaceLabel label = 2;
+    }
+    
+    optional FromNight fromNight = 1;
+    optional FromUnlabeledPlace fromUnlabeledPlace = 2;
+}
+
+message PersonalPlaceCreateError {
+    optional Error error = 1;
+    optional PersonalPlaceRateLimitError rateLimitError = 2;
+}
+
+message PersonalPlaceUpdateError {
+    optional Error error = 1;
+    optional PersonalPlaceRateLimitError rateLimitError = 2;
+}
+
+message PersonalPlaceCreateResponse {
+    optional PersonalPlaceCreateError error = 1;
+}
+
+message PersonalPlaceUpdateRequest {
+    // not sure about keys here
+
+    uint32 id = 1;
+    
+    optional PersonalPlaceLabelValue label = 2;
+    // todo enum context_Visibility
+    optional EnumWrap visibility = 3;
+    optional Location location = 4;
+    optional BoolValue isMain = 5;
+}
+
+message PersonalPlaceUpdateResponse {
+    optional PersonalPlaceUpdateError error = 1;
+}
+
+message PersonalPlaceResetRateLimitRequest {
+    // todo enum place_PersonalPlaceResetRateLimitRequest_Operation
+    uint32 operation = 1;
+}
+
+message UnlabeledPlacesResponse {
+    repeated UnlabeledPlace places = 1;
+}
