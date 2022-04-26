@@ -1,0 +1,105 @@
+syntax = "proto3";
+
+import "./utils.proto";
+
+message DisabledNotifications {
+    message PerUser {
+        string userUuid = 1;
+        // idk, need to look further
+        int32 bitfield = 2;
+    }
+
+    int32 globally = 1;
+    repeated PerUser perUser = 2;
+}
+
+message User {
+    message Events {
+        int32 inviterCount = 1;
+    }
+
+    string uuid = 1;
+    string name = 3;
+    optional string email = 4;
+    optional string password = 5;
+    optional string username = 35;
+    optional string avatarUrlPrefix = 6;
+    optional int32 avatarVersion = 7;
+    
+    // todo enum BlockStatus
+    optional uint32 blockRelationship = 27;
+
+    optional string phoneNumber = 8;
+    optional int32 phoneCountryCode = 9;
+    
+    optional Timestamp suspendedAt = 12;
+    optional Timestamp createdAt = 2;
+    optional Timestamp updatedAt = 29; 
+    optional Timestamp firstFriendAt = 23;
+
+    optional string timezone = 11;
+    repeated string roles = 16;
+    int32 friendsCount = 21;
+
+    optional DisabledNotifications disabledNotifications = 25;
+
+    // todo enum MapDisplayOptions
+    optional uint32 mapDisplayOptions = 18;
+    // todo enum DistanceUnit
+    optional uint32 DistanceUnits = 24;
+    bool voip = 15;
+    bool showSkiMaps = 17;
+    bool pointsOfInterestDisabled = 26;
+    bool privateMode = 28;
+    bool optOutSuggest = 38;
+    bool limitUsernameFriending = 40;
+    bool hidePhoneNumber = 42;
+    
+    optional int32 simMcc = 30;
+    optional int32 simMnc = 31;
+    optional int32 networkMcc = 32;
+    optional int32 networkMnc = 33;
+    optional Timestamp birthdate = 34;
+
+    // todo enum IDCardStyle
+    optional uint32 IdCardStyle = 36;
+    optional Events events = 39;
+}
+
+message Contact {
+    string uuid = 1;
+    Timestamp createdAt = 2;
+    string userUuid = 3;
+    string deviceUuid = 4;
+    string deviceContactId = 5;
+    string first = 6;
+    string middle = 7;
+    string last = 8;
+    repeated string phoneNumbers = 9;
+
+    bool hidden = 11; // or 5, 20
+    string full = 12;
+}
+
+message SuggestedUser {
+    // todo enum SuggestType
+    uint32 type = 1;
+    optional Contact contact = 2;
+    User user = 3;
+}
+
+message UserAnnotation {
+    message BrumpAnnotation {
+        Timestamp brumpedAt = 1;
+        Timestamp validUntil = 2;
+        float power = 3;
+    }
+
+    string userUuid = 1;
+    optional BrumpAnnotation brumpAnnotation = 2;
+    optional Timestamp brumpAnnotationExpiration = 3;
+}
+
+message UserAnnotationResponse {
+    repeated UserAnnotation annotations = 1;
+}

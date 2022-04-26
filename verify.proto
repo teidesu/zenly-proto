@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+import "./utils.proto";
+
+message VerifyInfo {
+    message AutomaticEvent {
+        uint32 type = 1;
+        Duration timer = 2;
+    }
+
+    repeated uint32 possibleEventTypes = 1;
+    int32 numberOfActionAvailable = 2;
+
+    Duration nextEventTimer = 3;
+    repeated AutomaticEvent automaticEvents = 4;
+    Duration actionInnervation = 5;
+
+    Timestamp expireAt = 6;
+    Timestamp createdAt = 8;
+    
+    int32 triesLeft = 7;
+    uint32 challengeType = 9;
+    int32 challengeSize = 10;
+    
+    bool hasExpired = 11;
+    
+    uint32 verificationMode = 12;
+    optional string deviceOsUuid = 13;
+}

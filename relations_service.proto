@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package co.znly.users.services.relations;
+
+import "./friends.proto";
+
+message TopRequest {
+    // mepty
+}
+
+message TopResponse {
+    repeated TopEntry entries = 1;
+}
+
+service RelationsService {
+    rpc Top(TopRequest) returns (TopResponse);
+}

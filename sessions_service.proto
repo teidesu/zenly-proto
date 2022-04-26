@@ -1,0 +1,11 @@
+syntax = "proto3";
+
+package co.znly.users.services.sessions;
+import "./sessions.proto";
+
+service SessionsService {
+    rpc SessionCreate(SessionCreateRequest) returns (SessionCreateResponse);
+    rpc SessionVerify(SessionVerifyRequest) returns (SessionVerifyResponse);
+    rpc SessionRelogin(SessionReloginRequest) returns (SessionReloginResponse);
+    rpc SessionRequestCall(SessionRequestCallRequest) returns (SessionRequestCallResponse);
+}

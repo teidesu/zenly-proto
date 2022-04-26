@@ -1,0 +1,70 @@
+syntax = "proto3";
+
+import "./tracking.proto";
+import "./users.proto";
+import "./utils.proto";
+
+/*
+ Friend ghost thing works like fucking crap. I honestly don't know why is it made so poorly.
+
+ Ok so by default each "friendship" has both ghost types set to REALTIME (0)
+ To change it you send FriendGhost request with the needed ghost type, BUT:
+
+ To change to blurred, you send BLURRED and until = time() + 5 years
+ To change to frozen, you send FROZEN and until = time() + <span> (or span = 5 years if "forever")
+ To change back to realtime (and this is where the cringe begins), you can either:
+   - Send BLURRED with until = -2006054656 (that's what clients do, at least Android one)
+   - Send REALTIME with until = -2006054656 (that's what I tried and it did exactly the same thing)
+ BUT! WHen changing back to realtime, in fact you just change to BLURRED with until = -2006054656!
+ And that's exactly how it's send to the other user too. BLURRED with until = -2006054656 is realtime.
+ BUT!!! When your friend set their location to FROZEN, you'll also get BLURRED, but until will not be set at all
+ Ok then what is actually BLURRED? It's when it's BLURRED and until is set to some time in the future.
+
+ Like literally why
+*/
+enum GhostType {
+    REALTIME = 0;
+    BLURRED = 1;
+    FROZEN = 2;
+}
+
+message TopEntry {
+    string friendUserUuid = 1;
+    double score = 2;
+    int32 rank = 3;
+    double stableScore = 5;
+}
+
+message Friendship {
+    string uuid = 1;
+    
+    Timestamp createdAt = 2;
+    optional Timestamp updatedAt = 10; // or 11, 14, 19, 29?
+    optional Timestamp deletedAt = 12;
+
+    GhostType ghostedType = 3;
+    GhostType remoteGhostType = 4;
+    optional Timestamp ghostedUntil = 5;
+    optional Timestamp remoteGhostUntil = 6;
+    
+    string friendRequestUuid = 7;
+    optional TrackingContext lastTrackingContexts = 9;
+}
+
+message FriendsResponse {
+    repeated User friends = 1;
+}
+
+message FriendshipsResponse {
+    repeated Friendship friends = 1;
+}
+
+message FriendGhostRequest {
+    repeated string uuids = 1;
+    GhostType type = 2;
+    optional Timestamp until = 3;
+}
+
+message FriendGhostResponse {
+    repeated Friendship friends = 1;
+}

@@ -1,0 +1,36 @@
+syntax = "proto3";
+
+import "./utils.proto";
+
+message Night {
+    uint32 id = 1;
+    Location location = 2;
+    uint32 nightsSpent = 3;
+    uint32 nbVisits = 4;
+    
+    repeated string sleptWith = 5;
+    Timestamp firstOccurrence = 6;
+    Timestamp lastOccurrence = 7;
+    
+    // todo enum _ptr_context_Visibility
+    EnumWrap Visibility = 8;
+    StringValue ISO_3611_1_Alpha_2 = 9;
+}
+
+message NightsResponse {
+    repeated Night nights = 1;
+}
+
+message NightUpdateRequest {
+    uint32 id = 1;
+    // todo enum _ptr_context_Visibility
+    EnumWrap visibility = 2;
+}
+
+message NightUpdateError {
+    optional Error error = 1;
+}
+
+message NightUpdateResponse {
+    optional NightUpdateError error = 1;
+}

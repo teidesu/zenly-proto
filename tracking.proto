@@ -1,0 +1,52 @@
+syntax = "proto3";
+
+import "./utils.proto";
+
+message TrackingContext {
+    string uuid = 1;
+    // todo
+    // time_Time CreatedAt;
+    // string UserUuid;
+    // string DeviceUuid;
+    // string CellularNetworkName;
+    // trackingcontext_CellularNetworkType CellularNetworkType;
+    // int32 CellularNetworkStrength;
+    // string CellularNetworkCountryCode;
+    // string WifiNetworkName;
+    // string WifiNetworkBssid;
+    // float64 Latitude;
+    // float64 Longitude;
+    // float64 Altitude;
+    // int32 BatteryLevel;
+    // bool IsForeground;
+    // string Ip;
+    // float64 HorizontalPrecision;
+    // float64 VerticalPrecision;
+    // bool IsCharging;
+    // bool IsGhost;
+    // time_Time DeviceTimestamp;
+    // uint32 Activity;
+    // float64 Speed;
+    // float64 Bearing;
+    // float64 Heading;
+    // float64 HeadingPrecision;
+    // int32 Floor;
+    // trackingcontext_TrackingContext_Location_Provider Provider;
+    // _ptr_trackingcontext_TrackingContext_WiFi Wifi;
+    // time_Duration Clock;
+    // int32 Seq;
+    // _ptr_trackingcontext_TrackingContext_Battery Battery;
+    // _ptr_trackingcontext_TrackingContext_Ringer Ringer;
+    // _ptr_trackingcontext_TrackingContext_MusicPlayer MusicPlayer;
+    // _ptr_trackingcontext_TrackingContext_DeviceLockState LockState;
+    // _ptr_trackingcontext_TrackingContext_PhoneState PhoneState;
+    // _slice__ptr_trackingcontext_TrackingContext_Location Locations;
+    // float64 Pressure;
+    // _ptr_trackingcontext_TrackingContext_Pedometer Pedometer;
+    // _ptr_trackingcontext_TrackingContext_Barometer Barometer;
+    // _ptr_trackingcontext_TrackingContext_Magnetometer Magnetometer;
+    // _ptr_trackingcontext_TrackingContext_DoNotDisturb Dnd;
+    // _ptr_trackingcontext_TrackingContext_AlarmClock AlarmClock;
+    // _ptr_trackingcontext_TrackingContext_Metadata Meta;
+    // trackingcontext_GhostType GhostType;
+}

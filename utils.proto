@@ -1,0 +1,66 @@
+syntax = "proto3";
+
+// ida type: time_Duration
+message Duration {
+    optional int32 seconds = 1;
+    optional int32 nanoseconds = 2;
+}
+
+// ida type: _ptr_time_Time
+message Timestamp {
+    // when seconds = -2006054656, then value is null
+    optional int32 seconds = 1;
+    optional int32 nanoseconds = 2;
+}
+
+// ida type: map_string_string (use with repeated)
+message StringMapEntry {
+    string key = 1;
+    string value = 2;
+}
+
+// ida type: context_LatLng
+message Location  {
+    float latitude = 1;
+    float longitude = 2;
+}
+
+// ida type: _ptr_geometry_GeoPoint
+message GeoPoint {
+    double latitude = 1;
+    double longitude = 2;
+    double altitude = 3;
+}
+
+// ida type: _ptr_geometry_GeoRectangle
+message GeoRectangle {
+    GeoPoint topLeft = 1;
+    GeoPoint bottomRight = 2;
+}
+
+// ida type: _ptr_services_Error
+message Error {
+    // todo enum
+    uint32 code = 1;
+    string message = 2;
+}
+
+// used for *Value types (wrapping enums)
+// idk why they are used but whatever lol
+message EnumWrap {
+    uint32 value = 1;
+}
+
+// ida type: _ptr_types_BoolValue
+message BoolValue {
+    bool value = 1;
+}
+
+// ida type: _ptr_types_BoolValue
+message StringValue {
+    string value = 1;
+}
+
+message Empty {
+    // empty message
+}

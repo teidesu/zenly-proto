@@ -1,0 +1,13 @@
+syntax = "proto3";
+
+package co.znly.users.services.friends;
+
+import "./users.proto";
+import "./friends.proto";
+import "./utils.proto";
+
+service FriendsService {
+    rpc Friends(Empty) returns (FriendsResponse);
+    rpc Friendships(Empty) returns (FriendshipsResponse);
+    rpc FriendGhost(FriendGhostRequest) returns (FriendGhostResponse);
+}

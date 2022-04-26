@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+import "./devices.proto";
+import "./verify.proto";
+import "./utils.proto";
+import "./configuration.proto";
+import "./user_preferences.proto";
+import "./users.proto";
+
+message Session {
+    string uuid = 1;
+
+    Timestamp createdAt = 2;
+    optional Timestamp verifiedAt = 13;
+    optional Timestamp closedAt = 8;
+
+    optional string userUuid = 3;
+    optional string deviceUuid = 4;
+    optional string phoneNumber = 5;
+    
+    bool isNewUser = 6;
+    bool isNewDevice = 7;
+    
+    optional string authUuid = 12;
+    optional string deviceType = 14;
+    uint32 status = 15;
+}
+
+message SessionCreateError {
+    optional Error error = 1;
+    // todo enum
+    optional uint32 code = 2;
+}
+
+message SessionVerifyError {
+    optional Error error = 1;
+    // todo enum
+    optional uint32 code = 2;
+}
+
+message SessionCreateRequest {
+    message CarrierInformations {
+        string networkOperatorCode = 1;
+        string networkOperatorName = 2;
+        string networkCountryIso = 3;
+        string simOperatorCode = 4;
+        string simOperatorName = 5;
+        string simCountryIso = 6;
+    }
+    
+    string phoneNumber = 1;
+    optional string password = 2;
+    DeviceInfo device = 3;
+    string deviceOsUuid = 4;
+    CarrierInformations carrierInformations = 6;
+    
+    bool domainErrorInResponse = 7;
+}
+
+message SessionCreateResponse {
+    optional Session session = 1;
+    optional int32 deprecatedChallengeType = 2;
+    optional int32 deprecatedChallengeSize = 3;
+    optional VerifyInfo verifyInfo = 4;
+    optional SessionCreateError error = 5;
+}
+
+message SessionVerifyRequest {
+    string sessionUuid = 1;
+    string phoneNumber = 2;
+    string userName = 3;
+    string deviceOsUuid = 4;
+    string code = 5;
+    DeviceInfo device = 6;
+    Timestamp birthdate = 7;
+    bool errorIfSuspended = 8;
+    bool domainErrorInResponse = 9;
+}
+
+message SessionVerifyResponse {
+    Session session = 1;
+    optional SessionVerifyError error = 2; // or?
+    
+    UserPreferences userPreferences = 3;
+    ConfigurationResponse configuration = 5;
+    User me = 6;
+    
+    bool forcedOnboardingEnabled = 4; // or 14?
+}
+
+message SessionReloginRequest {
+    string sessionUuid = 1;
+    DeviceInfo device = 2;
+    string deviceOsUuid = 3;
+}
+
+message SessionReloginResponse {
+    Session session = 1;
+    UserPreferences userPreferences = 2;
+    ConfigurationResponse configuration = 3;
+    User me = 4;
+}
+
+message SessionRequestCallRequest {
+    string sessionUuid = 1;
+    DeviceInfo device = 2;
+    // todo enum verify_Provider_Capability
+    uint32 type = 3;
+}
+
+message SessionRequestCallResponse {
+    VerifyInfo verifyInfo = 1;
+}

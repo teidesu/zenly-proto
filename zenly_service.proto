@@ -1,0 +1,25 @@
+syntax = "proto3";
+
+package zenly.protobuf.services;
+
+import "./configuration.proto";
+import "./ping.proto";
+import "./notifications.proto";
+import "./utils.proto";
+import "./users.proto";
+import "./pin.proto";
+
+message HealthStreamEvent {
+    Duration interval = 1;
+}
+
+service ZenlyService {
+    rpc Configuration(ConfigurationRequest) returns (ConfigurationResponse);
+    rpc PingManifest(PingManifestRequest) returns (PingManifestResponse);
+    rpc UserAnnotation(Empty) returns (UserAnnotationResponse);
+    
+    rpc HealthStream(Empty) returns (stream HealthStreamEvent);
+    rpc NotificationsStream(Empty) returns (stream NotificationStreamEvent);
+    
+    rpc PinContextSubscribeStream(PinContextSubscribeStreamRequest) returns (stream PinContextSubscribeStreamEvent);
+}
