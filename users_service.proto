@@ -1,0 +1,20 @@
+syntax = "proto3";
+
+package co.znly.users.services.users;
+
+import "./users.proto";
+import "./devices.proto";
+import "./utils.proto";
+
+message MeRequest {
+    optional DeviceInfo device = 1;
+}
+
+message MeResponse {
+    User me = 1;
+}
+
+service UserService {
+    rpc Me(MeRequest) returns (MeResponse);
+    rpc MeUserStream(Empty) returns (stream MeResponse);
+}

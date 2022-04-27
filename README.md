@@ -21,7 +21,8 @@ but basic functions do work and are described below.
       * [SessionRequestCall](#sessionrequestcall)
    * [Extracting session](#extracting-session)
 * [Avatars](#avatars)
-* [Getting friends](#getting-friends)
+* [Users](#users)
+   * [Me](#me)
    * [Friends](#friends)
 * [Getting location](#getting-location)
    * [PinContextSubscribeStream](#pincontextsubscribestream)
@@ -292,13 +293,60 @@ const url = user.avatarUrlPrefix + '.' + size + '.jpg?' + user.avatarVersion
 
 `size` can be one of: `64, 128, 256, 512`.
 
-# Getting friends
+# Users
 
-To get the list of friends, clients do `Friends` request:
+## `Me`
+
+It is often useful to get an object containing info about the current user.
+To do so, clients do `Me` request:
+
+> `POST /co.znly.users.services.users.UserService/Me`
+>
+> See `users_service.proto` and `users.proto` for more info
+
+Request body *may* contain device info, but it can be omitted.
+
+Server then responds with the current user object:
+
+```js
+{
+  "me": {
+    "uuid": "u-...some...user...id...",
+    "createdAt": {
+      "seconds": 1626861087,
+      "nanoseconds": 624000000
+    },
+    "name": "...",
+    "avatarUrlPrefix": "...",
+    "avatarVersion": 1626861231,
+    "phoneNumber": "...",
+    "roles": [
+      "standard"
+    ],
+    "friendsCount": 5,
+    "updatedAt": {
+      "seconds": 1635278940,
+      "nanoseconds": 341000000
+    },
+    "birthdate": {
+      "seconds": 1059091200
+    },
+    "username": "...",
+    "optOutSuggest": true,
+    "events": {
+      "inviterCount": 1
+    },
+    "limitUsernameFriending": true,
+    "hidePhoneNumber": false
+  }
+}
+```
 
 ## `Friends`
 
-> `POST /co.znly.users.services.friends.FriendsService/Friends `
+To get the list of friends, clients do `Friends` request:
+
+> `POST /co.znly.users.services.friends.FriendsService/Friends`
 >
 > See `friends_service.proto` and `friends.proto` for more info
 
