@@ -98,6 +98,9 @@ I ended up using mitmproxy, which worked *kinda* fine with some
 adjustments (i.e. insecure mode and other config options), but still
 it wasn't able to capture gRPC streams at all. 
 
+> **Tip**: APK with patched library for some reason doesn't work with
+> Google Maps. Changing to Mapbox fixed that.
+
 ## Analyzing
 
 Another way is to analyze the binary statically by throwing it
@@ -278,6 +281,9 @@ from which you can extract the token using the following
 CyberChef recipe: 
 
 [Extract from session.bin](https://gchq.github.io/CyberChef/#recipe=Protobuf_Decode('syntax%20%3D%20%22proto3%22;%5Cn%5Cnmessage%20Session%20%7B%5Cn%20%20string%20session%20%3D%201;%5Cn%7D',false,false))
+
+Alternatively, you can [set up interception](#intercepting) and snatch
+the session token directly from headers.
 
 # Avatars
 
