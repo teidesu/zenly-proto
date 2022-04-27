@@ -40,13 +40,17 @@ message ElevationStripped {
 message WeatherStripped {
     // todo unsure about keys
 
+    // rain: "weatherType": 262145,
+    // "detailedWeatherType": 17
+
     // todo enum weather_WeatherType
     optional uint32 weatherType = 1;
+    // in kelvins
     optional float temperature = 2;
     optional int32 humidity = 3;
     bool isDayTime = 5;
     // todo enum weather_DetailedWeatherType
-    uint32 DetailedWeatherType = 6;
+    uint32 detailedWeatherType = 6;
 }
 
 message PersonalPlaceStripped {

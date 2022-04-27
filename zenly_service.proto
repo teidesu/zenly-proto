@@ -8,6 +8,7 @@ import "./notifications.proto";
 import "./utils.proto";
 import "./users.proto";
 import "./pin.proto";
+import "./tracking.proto";
 
 message HealthStreamEvent {
     Duration interval = 1;
@@ -22,4 +23,7 @@ service ZenlyService {
     rpc NotificationsStream(Empty) returns (stream NotificationStreamEvent);
     
     rpc PinContextSubscribeStream(PinContextSubscribeStreamRequest) returns (stream PinContextSubscribeStreamEvent);
+    rpc TrackingContextSubscribeStream(TrackingContextSubscribeStreamRequest) returns (stream TrackingContextSubscribeStreamEvent);
+    // todo is it actually bidi?
+    rpc TrackingContextPublishStream(stream TrackingContextPublishStreamRequest) returns (stream TrackingContextPublishStreamEvent);
 }

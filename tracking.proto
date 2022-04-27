@@ -2,51 +2,221 @@ syntax = "proto3";
 
 import "./utils.proto";
 
+/*
+ Friend ghost thing works like fucking crap. I honestly don't know why is it made so poorly.
+
+ Ok so by default each "friendship" has both ghost types set to REALTIME (0)
+ To change it you send FriendGhost request with the needed ghost type, BUT:
+
+ To change to blurred, you send BLURRED and until = time() + 5 years
+ To change to frozen, you send FROZEN and until = time() + <span> (or span = 5 years if "forever")
+ To change back to realtime (and this is where the cringe begins), you can either:
+   - Send BLURRED with until = -2006054656 (that's what clients do, at least Android one)
+   - Send REALTIME with until = -2006054656 (that's what I tried and it did exactly the same thing)
+ BUT! WHen changing back to realtime, in fact you just change to BLURRED with until = -2006054656!
+ And that's exactly how it's send to the other user too. BLURRED with until = -2006054656 is realtime.
+ BUT!!! When your friend set their location to FROZEN, you'll also get BLURRED, but until will not be set at all
+ Ok then what is actually BLURRED? It's when it's BLURRED and until is set to some time in the future.
+
+ Like literally why
+*/
+enum GhostType {
+    REALTIME = 0;
+    BLURRED = 1;
+    FROZEN = 2;
+}
+
 message TrackingContext {
-    string uuid = 1;
-    // todo
-    // time_Time CreatedAt;
-    // string UserUuid;
-    // string DeviceUuid;
-    // string CellularNetworkName;
-    // trackingcontext_CellularNetworkType CellularNetworkType;
-    // int32 CellularNetworkStrength;
-    // string CellularNetworkCountryCode;
-    // string WifiNetworkName;
-    // string WifiNetworkBssid;
-    // float64 Latitude;
-    // float64 Longitude;
-    // float64 Altitude;
-    // int32 BatteryLevel;
-    // bool IsForeground;
-    // string Ip;
-    // float64 HorizontalPrecision;
-    // float64 VerticalPrecision;
-    // bool IsCharging;
-    // bool IsGhost;
-    // time_Time DeviceTimestamp;
-    // uint32 Activity;
-    // float64 Speed;
-    // float64 Bearing;
-    // float64 Heading;
-    // float64 HeadingPrecision;
-    // int32 Floor;
-    // trackingcontext_TrackingContext_Location_Provider Provider;
-    // _ptr_trackingcontext_TrackingContext_WiFi Wifi;
-    // time_Duration Clock;
-    // int32 Seq;
-    // _ptr_trackingcontext_TrackingContext_Battery Battery;
-    // _ptr_trackingcontext_TrackingContext_Ringer Ringer;
-    // _ptr_trackingcontext_TrackingContext_MusicPlayer MusicPlayer;
-    // _ptr_trackingcontext_TrackingContext_DeviceLockState LockState;
-    // _ptr_trackingcontext_TrackingContext_PhoneState PhoneState;
-    // _slice__ptr_trackingcontext_TrackingContext_Location Locations;
-    // float64 Pressure;
-    // _ptr_trackingcontext_TrackingContext_Pedometer Pedometer;
-    // _ptr_trackingcontext_TrackingContext_Barometer Barometer;
-    // _ptr_trackingcontext_TrackingContext_Magnetometer Magnetometer;
-    // _ptr_trackingcontext_TrackingContext_DoNotDisturb Dnd;
-    // _ptr_trackingcontext_TrackingContext_AlarmClock AlarmClock;
-    // _ptr_trackingcontext_TrackingContext_Metadata Meta;
-    // trackingcontext_GhostType GhostType;
+    message Wifi {
+        message AccessPoint {
+            bool isConnected = 1;
+            optional string bssid = 2;
+            optional string ssid = 3;
+            optional int32 rssi = 4;
+            optional int32 channel = 5;
+            // todo enum trackingcontext_TrackingContext_WiFi_AccessPoint_Band
+            optional uint32 band = 6;
+            optional Timestamp lastSeenAt = 7;
+        }
+
+        // todo enum trackingcontext_TrackingContext_WiFi_State
+        uint32 state = 1;
+        bool isScanning = 2;
+        AccessPoint accessPoints = 3;
+    }
+
+    message Battery {
+        // todo enum trackingcontext_TrackingContext_Battery_State
+        uint32 state = 1;
+        double level = 2;
+    }
+
+    message Ringer {
+        // todo enum trackingcontext_TrackingContext_Ringer_State
+        uint32 state = 1;
+        double level = 2;
+    }
+
+    message MusicPlayer {
+        message Song {
+            string artist = 1;
+            string album = 2;
+            string track = 3;
+        }
+
+        // todo enum trackingcontext_TrackingContext_MusicPlayer_State
+        uint32 state = 1;
+        optional Song song = 2;
+        optional string appBundleIdentifier = 3;
+        optional string trackIdentifier = 4;
+        optional string artworkIdentifier = 5;
+        optional Duration elapsedTime = 6;
+        optional Duration duration = 7;
+        optional Timestamp createdAt = 8;
+    }
+
+    message DeviceLockState {
+        // todo enum trackingcontext_TrackingContext_DeviceLockState_State
+        uint32 state = 1;
+    }
+
+    message PhoneState {
+        // todo enum trackingcontext_TrackingContext_PhoneState_State
+        uint32 state = 1;
+    }
+
+    message Location {
+        Timestamp timestamp = 1;
+        double latitude = 2;
+        double longitude = 3;
+        optional double altitude = 4;
+        optional double precisionHorizontal = 5;
+        optional double precisionVertical = 6;
+        // todo enum trackingcontext_TrackingContext_Location_Provider
+        optional uint32 provider = 7;
+    }
+
+    message Pedometer {
+        int32 numberOfSteps = 1;
+        Timestamp since = 2;
+    }
+
+    message Barometer {
+        double pressure = 1;
+    }
+
+    message Magnetometer {
+        Timestamp createdAt = 1;
+        float x = 2;
+        float y = 3;
+        float z = 4;
+    }
+
+    message DoNotDisturb {
+        // todo enum trackingcontext_TrackingContext_DoNotDisturb_State
+        uint32 state = 1;
+    }
+
+    message AlarmClock {
+        Timestamp nextFireAt = 1;
+    }
+
+    message Metadata {
+        optional string pushId = 1;
+        optional string isGhost = 2;
+        optional string willSleepin = 3;
+        repeated string watcherUuids = 4;
+    }
+
+    optional string uuid = 1;
+    optional Timestamp createdAt = 2;
+    string userUuid = 3;
+    optional string deviceUuid = 4;
+
+    optional string cellularNetworkName = 5;
+    // todo enum trackingcontext_CellularNetworkType
+    optional uint32 cellularNetworkType = 6;
+    optional int32 cellularNetworkStrength = 7;
+    optional string cellularNetworkCountryCode = 28;
+    
+    optional string wifiNetworkName = 8;
+    optional string wifiNetworkBssid = 9;
+
+    double latitude = 10;
+    double longitude = 11;
+    optional double altitude = 12;
+
+    optional int32 batteryLevel = 13;
+
+    bool isForeground = 14;
+    optional string ip = 15;
+    
+    optional double horizontalPrecision = 16;
+    optional double verticalPrecision = 17;
+
+    bool isCharging = 18;
+    bool isGhost = 19;
+    optional Timestamp deviceTimestamp = 20;
+
+    optional uint32 activity = 21;
+    optional double speed = 22;
+    optional double bearing = 23;
+    optional double heading = 24;
+    optional double headingPrecision = 25;
+    optional int32 floor = 26;
+    
+    // todo enum trackingcontext_TrackingContext_Location_Provider
+    optional uint32 provider = 45;
+    optional Wifi wifi = 30;
+    optional Duration clock = 31;
+    optional int32 seq = 32;
+
+    optional Battery battery = 33;
+    optional Ringer ringer = 34;
+    optional MusicPlayer musicPlayer = 35;
+    optional DeviceLockState lockState = 36;
+    optional PhoneState phoneState = 37;
+    repeated Location locations = 38;
+    optional Pedometer pedometer = 40;
+    optional Barometer barometer = 41;
+    optional Magnetometer magnetometer = 42;
+    optional DoNotDisturb dnd = 43;
+    optional AlarmClock alarmClock = 44;
+    optional Metadata meta = 27;
+
+    GhostType ghostType = 29;
+    optional double pressure = 39;
+}
+
+message TrackingContextSubscribeStreamRequest {
+    message Group {
+        repeated string friends = 1;
+    }
+
+    GeoRectangle viewport = 1;
+    optional string selected = 2;
+    // todo enum zenly_TrackingContextSubscribeStreamRequest_Mode
+    uint32 mode = 3;
+    optional Group group = 4;
+}
+
+message TrackingContextSubscribeStreamEvent {
+    message Pack {
+        optional uint64 tcLatLngHPrec = 1;
+        optional int32 userUuidCacheIdx = 2;
+    }
+
+    TrackingContext trackingContext = 1;
+    optional Pack packagedData = 2;
+}
+
+message TrackingContextPublishStreamRequest {
+    int64 seq = 1;
+    TrackingContext trackingContext = 2;
+    optional string pushId = 3;
+}
+
+message TrackingContextPublishStreamEvent {
+    int64 seq = 1;
+    repeated string watchersUids = 2;
 }

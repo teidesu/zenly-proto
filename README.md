@@ -3,7 +3,8 @@
 This repo contains reverse-engineered and re-created from
 scratch `.proto` files for interacting with Zenly.
 
-They are pretty incomplete, but basic functions do work.
+They are pretty incomplete (particularly, there are almost no enums), 
+but basic functions do work and are described below.
 
 ## Table of Contents
 
@@ -24,6 +25,10 @@ They are pretty incomplete, but basic functions do work.
    * [Friends](#friends)
 * [Getting location](#getting-location)
    * [PinContextSubscribeStream](#pincontextsubscribestream)
+   * [TrackingContextSubscribeStream](#trackingcontextsubscribestream)
+* [Sending location](#sending-location)
+  * [TrackingContextPublishStream](#trackingcontextpublishstream)
+* [License](#license)
 
 # Usage
 
@@ -345,7 +350,7 @@ as the dimensions.
       "altitude": 0
     }
   },
-  "mode": 1,
+  "mode": 1, // idk
   "selectedUserUuids": []
 }
 ```
@@ -386,3 +391,138 @@ Server-sent events look like:
 
 > **Note:** That array also contains your own location, 
 > be sure to correctly handle it as well.
+
+## `TrackingContextSubscribeStream`
+
+There's also another way to get locations, called "tracking context".
+Although this one seems to be legacy and deprecated - it currently
+sends much less information about friends: only lat/lon, precision, speed
+and battery level are present.
+
+> `POST /zenly.protobuf.services.ZenlyService/TrackingContextSubscribeStream`
+>
+> See `zenly_service.proto` and `tracking.proto` for more info
+
+```js
+{
+  "viewport": {
+    "topLeft": {
+      "latitude": -90,
+      "longitude": -90,
+      "altitude": 0
+    },
+    "bottomRight": {
+      "latitude": 90,
+      "longitude": 90,
+      "altitude": 0
+    }
+  },
+  "mode": 1, // idk
+  "selected"?: "u-...some...user...id...",
+  "group"?: {
+    "friends": [
+      "u-...some...user...id..."
+    ]
+  }
+}
+```
+
+> In this request, there seem to be multiple fields for "selected" 
+> friends. I'm not sure what's the diference. Anyways, providing 
+> some of them seems to also request location update and subscribe
+> to newer locations, just like in the previous request.
+
+Unlike the previous one, in this stream one message = one location,
+and at the start it sends all the available locations at once.
+
+They are sent as `TrackingContext` objects which, as I said before,
+doesn't provide as much info as `PinContext`, despite its structure being
+really similar.
+
+Server-sent events look like:
+
+```js
+{
+  "trackingContext": {
+    "createdAt": {
+      "seconds": 1651061606,
+      "nanoseconds": 390995467
+    },
+    "userUuid": "u-...some...user...id...",
+    "latitude": ...,
+    "longitude": ...,
+    "batteryLevel": 90,
+    "isForeground": false,
+    "horizontalPrecision": 5,
+    "verticalPrecision": 0,
+    "isCharging": false,
+    "isGhost": false,
+    "ghostType": "REALTIME",
+  }
+}
+```
+
+> **Note:** This one doesn't seem to send your own location,
+> but be sure to handle that just in case.
+
+# Sending location
+
+It might also be useful to mock your own location by sending fake info.
+
+## `TrackingContextPublishStream`
+
+Clients send their location using `TrackingContextPublishStream`, which is a
+bi-directional stream where the client sends its own location, and the server
+sends acks and info about watchers.
+
+> `POST /zenly.protobuf.services.ZenlyService/TrackingContextPublishStream`
+>
+> See `zenly_service.proto` and `tracking.proto` for more info
+
+Each client-sent event looks basically like this:
+
+```js
+{
+  "seq": "1",
+  "trackingContext": {
+    "userUuid": me.uuid,
+    "latitude": 55.7520,
+    "longitude": 37.6175,
+    "batteryLevel": 69,
+    "isForeground": false,
+    "horizontalPrecision": 5,
+    "isCharging": false,
+    "isGhost": false,
+    "speed": 0,
+    "bearing": 0,
+    "ghostType": "REALTIME",
+  }
+}
+```
+
+Here we set our own location to Moscow Kremlin. There are also other 
+fields described in the proto object, which aren't sent by the 
+`TrackingContextSubscribeStream`, but seem to be used in the 
+`PinContextSubscribeStream` results. 
+
+`seq` is a sequential number used to map sent tracking context with the 
+server-sent acks.
+
+I'm not going to cover them because a) there are a lot of them and I'm lazy,
+b) I don't exactly understand half of them
+
+For each sent event, server responds with this object, serving as an acknowledgement:
+
+```js
+{
+  "seq": "1",
+  "watchersUids": []
+}
+```
+
+It also sends events when `watchersUids` field is changed, in which case `seq` is 
+set to the last received tracking context. 
+
+# License
+
+This repo (including this readme) is licensed under MIT license.
