@@ -553,11 +553,11 @@ fields described in the proto object, which aren't sent by the
 `TrackingContextSubscribeStream`, but seem to be used in the 
 `PinContextSubscribeStream` results. 
 
-`seq` is a sequential number used to map sent tracking context with the 
-server-sent acks.
-
 I'm not going to cover them because a) there are a lot of them and I'm lazy,
 b) I don't exactly understand half of them
+
+`seq` is a sequential number used to map sent tracking context with the 
+server-sent acks.
 
 For each sent event, server responds with this object, serving as an acknowledgement:
 
