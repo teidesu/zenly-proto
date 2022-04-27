@@ -25,5 +25,5 @@ message VerifyInfo {
     bool hasExpired = 11;
     
     uint32 verificationMode = 12;
-    optional string deviceOsUuid = 13;
+    string deviceOsUuid = 13;
 }

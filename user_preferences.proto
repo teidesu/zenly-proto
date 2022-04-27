@@ -5,16 +5,16 @@ import "./utils.proto";
 message UserPreferences {
     message Descendants {
         int32 count = 1;
-        optional int32 hintFlags = 2;
-        optional int32 lastSeenLevelThreshold = 3;
-        optional Timestamp lastSeenDate = 4;
+        int32 hintFlags = 2;
+        int32 lastSeenLevelThreshold = 3;
+        Timestamp lastSeenDate = 4;
         bool hasSeenTutorial = 5;
     }
 
     message MapLenses {
         repeated string enabledLenses = 1;
         repeated string seenLenses = 2;
-        optional uint32 preferredFuelType = 3;
+        uint32 preferredFuelType = 3;
     }
 
     message PowerMoves {
@@ -43,12 +43,12 @@ message UserPreferences {
     bool coronaBumpDialogDisplayed = 6;
     bool friendshipFactsDisplayed = 10;
     
-    optional Descendants descendants = 4;
-    optional MapLenses mapLenses = 8;
-    optional PowerMoves powerMoves = 11;
-    optional Chat chat = 12;
-    optional Chime chime = 13;
-    optional Flash flash = 14;
+    Descendants descendants = 4;
+    MapLenses mapLenses = 8;
+    PowerMoves powerMoves = 11;
+    Chat chat = 12;
+    Chime chime = 13;
+    Flash flash = 14;
 }
 
 message UserPreferencesSetRequest {
@@ -56,7 +56,7 @@ message UserPreferencesSetRequest {
 }
 
 message UserPreferencesSetResponse {
-    optional UserPreferencesSetError error = 1;
+    UserPreferencesSetError error = 1;
 }
 
 message UserPreferencesSetError {

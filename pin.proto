@@ -25,11 +25,11 @@ message BatteryStripped {
 message LocExtraStripped {
     double latitude = 1;
     double longitude = 2;
-    optional float precision = 3;
-    optional float speed = 4;
+    float precision = 3;
+    float speed = 4;
     // todo enum pincontext_LocExtraStripped_DynamicState
-    optional uint32 dynamic = 5;
-    optional Timestamp hereSince = 6;
+    uint32 dynamic = 5;
+    Timestamp hereSince = 6;
 }
 
 message ElevationStripped {
@@ -44,10 +44,10 @@ message WeatherStripped {
     // "detailedWeatherType": 17
 
     // todo enum weather_WeatherType
-    optional uint32 weatherType = 1;
+    uint32 weatherType = 1;
     // in kelvins
-    optional float temperature = 2;
-    optional int32 humidity = 3;
+    float temperature = 2;
+    int32 humidity = 3;
     bool isDayTime = 5;
     // todo enum weather_DetailedWeatherType
     uint32 detailedWeatherType = 6;
@@ -65,24 +65,24 @@ message HeadingStripped {
     message Place {
         double latitude = 1;
         double longitude = 2;
-        optional PersonalPlaceLabel label = 3;
+        PersonalPlaceLabel label = 3;
         bool isMain = 4;
         int32 radius = 5;
-        optional int32 id = 6;
+        int32 id = 6;
     }
 
-    optional Place origin = 1;
-    optional Place destination = 2;
-    optional Timestamp eta = 3;
-    optional Timestamp departureTime = 4;
+    Place origin = 1;
+    Place destination = 2;
+    Timestamp eta = 3;
+    Timestamp departureTime = 4;
 }
 
 message SleepingStripped {
     // todo enum pincontext_SleepingStripped_Activity
     uint32 activity = 1;
-    optional Timestamp fellAsleepAt = 2;
-    optional Timestamp predictedWakeUpAt = 3;
-    optional Timestamp sleepPeriodStartsAt = 4;
+    Timestamp fellAsleepAt = 2;
+    Timestamp predictedWakeUpAt = 3;
+    Timestamp sleepPeriodStartsAt = 4;
 }
 
 message BubblerStripped {
@@ -121,21 +121,21 @@ message TelephonyStripped {
 
 message MusicPlayerStripped {
     message Song {
-        optional string artist = 1;
-        optional string album = 2;
-        optional string track = 3;
+        string artist = 1;
+        string album = 2;
+        string track = 3;
     }
 
     // todo enum MusicPlayerStripped_Status
     uint32 status = 1;
-    optional Song song = 2;
+    Song song = 2;
     // todo enum MusicPlayerStripped_AppProvider
-    optional uint32 appProvider = 3;
-    optional string trackIdentifier = 4;
-    optional string artworkIdentifier = 5;
-    optional Duration elapsedTime = 6;
-    optional Duration duration = 7;
-    optional Timestamp createdAt = 8;
+    uint32 appProvider = 3;
+    string trackIdentifier = 4;
+    string artworkIdentifier = 5;
+    Duration elapsedTime = 6;
+    Duration duration = 7;
+    Timestamp createdAt = 8;
 }
 
 message AtFriendsPersonalPlaceStripped {
@@ -158,50 +158,50 @@ message PinContext {
 
     // todo enum pincontext_PinContextResult (all *Result)
 
-    optional uint32 deviceResult = 90;
-    optional DeviceStripped device = 91;
+    uint32 deviceResult = 90;
+    DeviceStripped device = 91;
 
     uint32 atNightPlaceResult = 94;
-    optional AtNightPlaceStripped atNightPlace = 95;
+    AtNightPlaceStripped atNightPlace = 95;
 
-    optional uint32 activityResult = 100;
-    optional ActivityStripped activity = 101; 
+    uint32 activityResult = 100;
+    ActivityStripped activity = 101; 
 
-    optional uint32 batteryResult = 110;
-    optional BatteryStripped battery = 111;
+    uint32 batteryResult = 110;
+    BatteryStripped battery = 111;
 
-    optional uint32 locExtraResult = 120;
-    optional LocExtraStripped locExtra = 121;
+    uint32 locExtraResult = 120;
+    LocExtraStripped locExtra = 121;
 
-    optional uint32 elevationResult = 130;
-    optional ElevationStripped elevation = 131;
+    uint32 elevationResult = 130;
+    ElevationStripped elevation = 131;
 
-    optional uint32 weatherResult = 160;
-    optional WeatherStripped weather = 161;
+    uint32 weatherResult = 160;
+    WeatherStripped weather = 161;
 
-    optional uint32 personalPlaceResult = 170;
-    optional PersonalPlaceStripped personalPlace = 171;
+    uint32 personalPlaceResult = 170;
+    PersonalPlaceStripped personalPlace = 171;
     
-    optional uint32 headingResult = 180;
-    optional HeadingStripped heading = 181;
+    uint32 headingResult = 180;
+    HeadingStripped heading = 181;
     
-    optional uint32 sleepingResult = 190;
-    optional SleepingStripped sleeping = 191;
+    uint32 sleepingResult = 190;
+    SleepingStripped sleeping = 191;
     
-    optional uint32 bubblerResult = 200;
-    optional BubblerStripped bubbler = 201;
+    uint32 bubblerResult = 200;
+    BubblerStripped bubbler = 201;
     
-    optional uint32 lockModeResult = 210;
-    optional LockModeStripped lockMode = 211;
+    uint32 lockModeResult = 210;
+    LockModeStripped lockMode = 211;
     
-    optional uint32 telephonyResult = 220;
-    optional TelephonyStripped telephony = 221;
+    uint32 telephonyResult = 220;
+    TelephonyStripped telephony = 221;
     
-    optional uint32 musicPlayerResult = 230;
-    optional MusicPlayerStripped musicPlayer = 231;
+    uint32 musicPlayerResult = 230;
+    MusicPlayerStripped musicPlayer = 231;
     
-    optional uint32 atFriendsPersonalPlaceResult = 240;
-    optional AtFriendsPersonalPlaceStripped atFriendsPersonalPlace = 241;
+    uint32 atFriendsPersonalPlaceResult = 240;
+    AtFriendsPersonalPlaceStripped atFriendsPersonalPlace = 241;
 }
 
 message PinContextSubscribeStreamRequest {

@@ -11,31 +11,31 @@ message Session {
     string uuid = 1;
 
     Timestamp createdAt = 2;
-    optional Timestamp verifiedAt = 13;
-    optional Timestamp closedAt = 8;
+    Timestamp verifiedAt = 13;
+    Timestamp closedAt = 8;
 
-    optional string userUuid = 3;
-    optional string deviceUuid = 4;
-    optional string phoneNumber = 5;
+    string userUuid = 3;
+    string deviceUuid = 4;
+    string phoneNumber = 5;
     
     bool isNewUser = 6;
     bool isNewDevice = 7;
     
-    optional string authUuid = 12;
-    optional string deviceType = 14;
+    string authUuid = 12;
+    string deviceType = 14;
     uint32 status = 15;
 }
 
 message SessionCreateError {
-    optional Error error = 1;
+    Error error = 1;
     // todo enum
-    optional uint32 code = 2;
+    uint32 code = 2;
 }
 
 message SessionVerifyError {
-    optional Error error = 1;
+    Error error = 1;
     // todo enum
-    optional uint32 code = 2;
+    uint32 code = 2;
 }
 
 message SessionCreateRequest {
@@ -49,7 +49,7 @@ message SessionCreateRequest {
     }
     
     string phoneNumber = 1;
-    optional string password = 2;
+    string password = 2;
     DeviceInfo device = 3;
     string deviceOsUuid = 4;
     CarrierInformations carrierInformations = 6;
@@ -58,11 +58,11 @@ message SessionCreateRequest {
 }
 
 message SessionCreateResponse {
-    optional Session session = 1;
-    optional int32 deprecatedChallengeType = 2;
-    optional int32 deprecatedChallengeSize = 3;
-    optional VerifyInfo verifyInfo = 4;
-    optional SessionCreateError error = 5;
+    Session session = 1;
+    int32 deprecatedChallengeType = 2;
+    int32 deprecatedChallengeSize = 3;
+    VerifyInfo verifyInfo = 4;
+    SessionCreateError error = 5;
 }
 
 message SessionVerifyRequest {
@@ -79,7 +79,7 @@ message SessionVerifyRequest {
 
 message SessionVerifyResponse {
     Session session = 1;
-    optional SessionVerifyError error = 2; // or?
+    SessionVerifyError error = 2; // or?
     
     UserPreferences userPreferences = 3;
     ConfigurationResponse configuration = 5;

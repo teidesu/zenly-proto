@@ -15,16 +15,16 @@ message Friendship {
     string uuid = 1;
     
     Timestamp createdAt = 2;
-    optional Timestamp updatedAt = 10; // or 11, 14, 19, 29?
-    optional Timestamp deletedAt = 12;
+    Timestamp updatedAt = 10; // or 11, 14, 19, 29?
+    Timestamp deletedAt = 12;
 
     GhostType ghostedType = 3;
     GhostType remoteGhostType = 4;
-    optional Timestamp ghostedUntil = 5;
-    optional Timestamp remoteGhostUntil = 6;
+    Timestamp ghostedUntil = 5;
+    Timestamp remoteGhostUntil = 6;
     
     string friendRequestUuid = 7;
-    optional TrackingContext lastTrackingContexts = 9;
+    TrackingContext lastTrackingContexts = 9;
 }
 
 message FriendsResponse {
@@ -38,7 +38,7 @@ message FriendshipsResponse {
 message FriendGhostRequest {
     repeated string uuids = 1;
     GhostType type = 2;
-    optional Timestamp until = 3;
+    Timestamp until = 3;
 }
 
 message FriendGhostResponse {

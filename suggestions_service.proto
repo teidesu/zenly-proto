@@ -7,8 +7,8 @@ import "./utils.proto";
 
 message ContactsSuggestionsResponse {
     repeated User users = 1;
-    optional int32 total = 2;
-    optional int32 limit = 3;
+    int32 total = 2;
+    int32 limit = 3;
     int32 offset = 4;
     int32 algoVersion = 8;
     repeated SuggestedUser suggestedUsers = 9;
@@ -25,7 +25,7 @@ message SuggestedDismissError {
 
 message SuggestedDismissResponse {
     repeated string errorMessages = 1;
-    optional SuggestedDismissError error = 2;
+    SuggestedDismissError error = 2;
 }
 
 service SuggestionsService {

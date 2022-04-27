@@ -3,17 +3,17 @@ import "./utils.proto";
 
 message ConfigurationRequest {
     string coreVersion = 1;
-    optional string iosVersion = 2;
-    optional string androidVersion = 3;
-    optional string webAppVersion = 4;
+    string iosVersion = 2;
+    string androidVersion = 3;
+    string webAppVersion = 4;
     string deviceOsUuid = 5;
 }
 
 message ConfigurationResponse {
     string minCoreVersion = 1;
-    optional string minIosVersion = 2;
-    optional string minAndroidVersion = 3;
-    optional string minWebAppVersion = 7;
+    string minIosVersion = 2;
+    string minAndroidVersion = 3;
+    string minWebAppVersion = 7;
    
     string upgradeUrl = 4;
     bool upgrade = 5;
@@ -29,8 +29,8 @@ message Configuration {
         int32 contactsBuffer = 3;
         int32 maxSearchResults = 4;
         Duration contactsUploadTimeout = 5;
-        optional int64 defaultTopFriend = 6;
-        optional string contactHashKey = 7;
+        int64 defaultTopFriend = 6;
+        string contactHashKey = 7;
         string cdnBaseUrl = 8;
     }
 
@@ -62,7 +62,7 @@ message Configuration {
         // ? valveDialTimeout = 8;
         // ? valveCallTimeout = 9;
         // ? valveCacheTtl = 10;
-        optional string valveUrl = 11;
+        string valveUrl = 11;
         Duration grpcDefaultKeepAliveTimeout = 12;
         Duration grpcDefaultKeepAlivePing = 13;
         Duration grpcPipelineKeepAliveTimeout = 14;
@@ -103,7 +103,7 @@ message Configuration {
         double tcDebounceMaxDuration = 7;
         double tcDebounceMaxDistance = 8;
         double tcDebounceHorizontalPrecisionThreshold = 9;
-        optional double tcDebounceMaxDeltaPressure = 10; // ?
+        double tcDebounceMaxDeltaPressure = 10; // ?
     }
 
     message Tracer {
@@ -198,18 +198,18 @@ message Configuration {
             string analyticsName = 10;
         }
 
-        optional OpenWeatherMap openWeatherMapPrecipitations = 1;
-        optional CoronaVirus coronavirus = 2;
-        optional OpenWeatherMap openWeatherMapTemperature = 3;
-        optional Wikipedia wikipedia = 4;
-        optional Instagram instragram = 5;
-        optional WithPayload publicToilets = 6;
-        optional WithPayload basketballCourts = 7;
-        optional WithPayload condomFinder = 8;
-        optional WithPayload leFoodingRestaurants = 9;
-        optional WithPayload leFoodingHotels = 10;
-        optional WithPayload streetArt = 11;
-        optional WithPayload snapPlace = 12;
+        OpenWeatherMap openWeatherMapPrecipitations = 1;
+        CoronaVirus coronavirus = 2;
+        OpenWeatherMap openWeatherMapTemperature = 3;
+        Wikipedia wikipedia = 4;
+        Instagram instragram = 5;
+        WithPayload publicToilets = 6;
+        WithPayload basketballCourts = 7;
+        WithPayload condomFinder = 8;
+        WithPayload leFoodingRestaurants = 9;
+        WithPayload leFoodingHotels = 10;
+        WithPayload streetArt = 11;
+        WithPayload snapPlace = 12;
         repeated GeoEnabledLenses geoEnabledLenses = 13;
     }
 

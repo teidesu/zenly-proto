@@ -2,15 +2,15 @@ syntax = "proto3";
 
 // ida type: time_Duration
 message Duration {
-    optional int32 seconds = 1;
-    optional int32 nanoseconds = 2;
+    int32 seconds = 1;
+    int32 nanoseconds = 2;
 }
 
 // ida type: _ptr_time_Time
 message Timestamp {
     // when seconds = -2006054656, then value is null
-    optional int32 seconds = 1;
-    optional int32 nanoseconds = 2;
+    int32 seconds = 1;
+    int32 nanoseconds = 2;
 }
 
 // ida type: map_string_string (use with repeated)

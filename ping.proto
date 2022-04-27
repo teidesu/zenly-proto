@@ -17,7 +17,7 @@ message PingPack {
 }
 
 message PingManifestRequest {
-    optional string checksum = 1;
+    string checksum = 1;
 }
 
 message PingManifestResponse {

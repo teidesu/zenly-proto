@@ -30,13 +30,13 @@ message TrackingContext {
     message Wifi {
         message AccessPoint {
             bool isConnected = 1;
-            optional string bssid = 2;
-            optional string ssid = 3;
-            optional int32 rssi = 4;
-            optional int32 channel = 5;
+            string bssid = 2;
+            string ssid = 3;
+            int32 rssi = 4;
+            int32 channel = 5;
             // todo enum trackingcontext_TrackingContext_WiFi_AccessPoint_Band
-            optional uint32 band = 6;
-            optional Timestamp lastSeenAt = 7;
+            uint32 band = 6;
+            Timestamp lastSeenAt = 7;
         }
 
         // todo enum trackingcontext_TrackingContext_WiFi_State
@@ -66,13 +66,13 @@ message TrackingContext {
 
         // todo enum trackingcontext_TrackingContext_MusicPlayer_State
         uint32 state = 1;
-        optional Song song = 2;
-        optional string appBundleIdentifier = 3;
-        optional string trackIdentifier = 4;
-        optional string artworkIdentifier = 5;
-        optional Duration elapsedTime = 6;
-        optional Duration duration = 7;
-        optional Timestamp createdAt = 8;
+        Song song = 2;
+        string appBundleIdentifier = 3;
+        string trackIdentifier = 4;
+        string artworkIdentifier = 5;
+        Duration elapsedTime = 6;
+        Duration duration = 7;
+        Timestamp createdAt = 8;
     }
 
     message DeviceLockState {
@@ -89,11 +89,11 @@ message TrackingContext {
         Timestamp timestamp = 1;
         double latitude = 2;
         double longitude = 3;
-        optional double altitude = 4;
-        optional double precisionHorizontal = 5;
-        optional double precisionVertical = 6;
+        double altitude = 4;
+        double precisionHorizontal = 5;
+        double precisionVertical = 6;
         // todo enum trackingcontext_TrackingContext_Location_Provider
-        optional uint32 provider = 7;
+        uint32 provider = 7;
     }
 
     message Pedometer {
@@ -122,70 +122,70 @@ message TrackingContext {
     }
 
     message Metadata {
-        optional string pushId = 1;
-        optional string isGhost = 2;
-        optional string willSleepin = 3;
+        string pushId = 1;
+        string isGhost = 2;
+        string willSleepin = 3;
         repeated string watcherUuids = 4;
     }
 
-    optional string uuid = 1;
-    optional Timestamp createdAt = 2;
+    string uuid = 1;
+    Timestamp createdAt = 2;
     string userUuid = 3;
-    optional string deviceUuid = 4;
+    string deviceUuid = 4;
 
-    optional string cellularNetworkName = 5;
+    string cellularNetworkName = 5;
     // todo enum trackingcontext_CellularNetworkType
-    optional uint32 cellularNetworkType = 6;
-    optional int32 cellularNetworkStrength = 7;
-    optional string cellularNetworkCountryCode = 28;
+    uint32 cellularNetworkType = 6;
+    int32 cellularNetworkStrength = 7;
+    string cellularNetworkCountryCode = 28;
     
-    optional string wifiNetworkName = 8;
-    optional string wifiNetworkBssid = 9;
+    string wifiNetworkName = 8;
+    string wifiNetworkBssid = 9;
 
     double latitude = 10;
     double longitude = 11;
-    optional double altitude = 12;
+    double altitude = 12;
 
-    optional int32 batteryLevel = 13;
+    int32 batteryLevel = 13;
 
     bool isForeground = 14;
-    optional string ip = 15;
+    string ip = 15;
     
-    optional double horizontalPrecision = 16;
-    optional double verticalPrecision = 17;
+    double horizontalPrecision = 16;
+    double verticalPrecision = 17;
 
     bool isCharging = 18;
     bool isGhost = 19;
-    optional Timestamp deviceTimestamp = 20;
+    Timestamp deviceTimestamp = 20;
 
-    optional uint32 activity = 21;
-    optional double speed = 22;
-    optional double bearing = 23;
-    optional double heading = 24;
-    optional double headingPrecision = 25;
-    optional int32 floor = 26;
+    uint32 activity = 21;
+    double speed = 22;
+    double bearing = 23;
+    double heading = 24;
+    double headingPrecision = 25;
+    int32 floor = 26;
     
     // todo enum trackingcontext_TrackingContext_Location_Provider
-    optional uint32 provider = 45;
-    optional Wifi wifi = 30;
-    optional Duration clock = 31;
-    optional int32 seq = 32;
+    uint32 provider = 45;
+    Wifi wifi = 30;
+    Duration clock = 31;
+    int32 seq = 32;
 
-    optional Battery battery = 33;
-    optional Ringer ringer = 34;
-    optional MusicPlayer musicPlayer = 35;
-    optional DeviceLockState lockState = 36;
-    optional PhoneState phoneState = 37;
+    Battery battery = 33;
+    Ringer ringer = 34;
+    MusicPlayer musicPlayer = 35;
+    DeviceLockState lockState = 36;
+    PhoneState phoneState = 37;
     repeated Location locations = 38;
-    optional Pedometer pedometer = 40;
-    optional Barometer barometer = 41;
-    optional Magnetometer magnetometer = 42;
-    optional DoNotDisturb dnd = 43;
-    optional AlarmClock alarmClock = 44;
-    optional Metadata meta = 27;
+    Pedometer pedometer = 40;
+    Barometer barometer = 41;
+    Magnetometer magnetometer = 42;
+    DoNotDisturb dnd = 43;
+    AlarmClock alarmClock = 44;
+    Metadata meta = 27;
 
     GhostType ghostType = 29;
-    optional double pressure = 39;
+    double pressure = 39;
 }
 
 message TrackingContextSubscribeStreamRequest {
@@ -194,26 +194,26 @@ message TrackingContextSubscribeStreamRequest {
     }
 
     GeoRectangle viewport = 1;
-    optional string selected = 2;
+    string selected = 2;
     // todo enum zenly_TrackingContextSubscribeStreamRequest_Mode
     uint32 mode = 3;
-    optional Group group = 4;
+    Group group = 4;
 }
 
 message TrackingContextSubscribeStreamEvent {
     message Pack {
-        optional uint64 tcLatLngHPrec = 1;
-        optional int32 userUuidCacheIdx = 2;
+        uint64 tcLatLngHPrec = 1;
+        int32 userUuidCacheIdx = 2;
     }
 
     TrackingContext trackingContext = 1;
-    optional Pack packagedData = 2;
+    Pack packagedData = 2;
 }
 
 message TrackingContextPublishStreamRequest {
     int64 seq = 1;
     TrackingContext trackingContext = 2;
-    optional string pushId = 3;
+    string pushId = 3;
 }
 
 message TrackingContextPublishStreamEvent {

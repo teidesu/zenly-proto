@@ -7,7 +7,7 @@ import "./devices.proto";
 import "./utils.proto";
 
 message MeRequest {
-    optional DeviceInfo device = 1;
+    DeviceInfo device = 1;
 }
 
 message MeResponse {

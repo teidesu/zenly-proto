@@ -20,33 +20,33 @@ message User {
 
     string uuid = 1;
     string name = 3;
-    optional string email = 4;
-    optional string password = 5;
-    optional string username = 35;
-    optional string avatarUrlPrefix = 6;
-    optional int32 avatarVersion = 7;
+    string email = 4;
+    string password = 5;
+    string username = 35;
+    string avatarUrlPrefix = 6;
+    int32 avatarVersion = 7;
     
     // todo enum BlockStatus
-    optional uint32 blockRelationship = 27;
+    uint32 blockRelationship = 27;
 
-    optional string phoneNumber = 8;
-    optional int32 phoneCountryCode = 9;
+    string phoneNumber = 8;
+    int32 phoneCountryCode = 9;
     
-    optional Timestamp suspendedAt = 12;
-    optional Timestamp createdAt = 2;
-    optional Timestamp updatedAt = 29; 
-    optional Timestamp firstFriendAt = 23;
+    Timestamp suspendedAt = 12;
+    Timestamp createdAt = 2;
+    Timestamp updatedAt = 29; 
+    Timestamp firstFriendAt = 23;
 
-    optional string timezone = 11;
+    string timezone = 11;
     repeated string roles = 16;
     int32 friendsCount = 21;
 
-    optional DisabledNotifications disabledNotifications = 25;
+    DisabledNotifications disabledNotifications = 25;
 
     // todo enum MapDisplayOptions
-    optional uint32 mapDisplayOptions = 18;
+    uint32 mapDisplayOptions = 18;
     // todo enum DistanceUnit
-    optional uint32 DistanceUnits = 24;
+    uint32 DistanceUnits = 24;
     bool voip = 15;
     bool showSkiMaps = 17;
     bool pointsOfInterestDisabled = 26;
@@ -55,15 +55,15 @@ message User {
     bool limitUsernameFriending = 40;
     bool hidePhoneNumber = 42;
     
-    optional int32 simMcc = 30;
-    optional int32 simMnc = 31;
-    optional int32 networkMcc = 32;
-    optional int32 networkMnc = 33;
-    optional Timestamp birthdate = 34;
+    int32 simMcc = 30;
+    int32 simMnc = 31;
+    int32 networkMcc = 32;
+    int32 networkMnc = 33;
+    Timestamp birthdate = 34;
 
     // todo enum IDCardStyle
-    optional uint32 IdCardStyle = 36;
-    optional Events events = 39;
+    uint32 IdCardStyle = 36;
+    Events events = 39;
 }
 
 message Contact {
@@ -84,7 +84,7 @@ message Contact {
 message SuggestedUser {
     // todo enum SuggestType
     uint32 type = 1;
-    optional Contact contact = 2;
+    Contact contact = 2;
     User user = 3;
 }
 
@@ -96,8 +96,8 @@ message UserAnnotation {
     }
 
     string userUuid = 1;
-    optional BrumpAnnotation brumpAnnotation = 2;
-    optional Timestamp brumpAnnotationExpiration = 3;
+    BrumpAnnotation brumpAnnotation = 2;
+    Timestamp brumpAnnotationExpiration = 3;
 }
 
 message UserAnnotationResponse {

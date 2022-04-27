@@ -28,9 +28,9 @@ message NightUpdateRequest {
 }
 
 message NightUpdateError {
-    optional Error error = 1;
+    Error error = 1;
 }
 
 message NightUpdateResponse {
-    optional NightUpdateError error = 1;
+    NightUpdateError error = 1;
 }

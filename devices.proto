@@ -8,7 +8,7 @@ enum DeviceType {
 
 message DeviceInfo {
     string appVersion = 1;
-    optional string appFlavor = 2;
+    string appFlavor = 2;
     DeviceType type = 3;
     string osVersion = 4;
     string model = 5;
